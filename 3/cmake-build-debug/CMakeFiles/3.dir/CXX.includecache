@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/wangjiani/wjn/Code/Leetcode-cpp/3/main.cpp
+iostream
+-
+string
+-
+set
+-
+unordered_set
+-
+
