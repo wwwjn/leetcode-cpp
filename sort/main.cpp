@@ -7,8 +7,8 @@ using namespace std;
 
 class Solution {
 public:
-    void merge(vector<int>& nums){
-
+    void mergesort(vector<int>& nums){
+        int l = 0;
     }
     void quicksort(vector<int>& nums, int left, int right){
         if(left >= right){  // the end of quick sort
