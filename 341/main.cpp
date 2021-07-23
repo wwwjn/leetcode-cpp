@@ -56,6 +56,21 @@ public:
     }
 };
 
+class NestedIterator2 {
+public:
+    NestedIterator2(vector<NestedInteger> &nestedList) {
+
+    }
+    int next() {
+
+    }
+
+    bool hasNext() {
+
+    }
+};
+
+
 /**
  * Your NestedIterator object will be instantiated and called as such:
  * NestedIterator i(nestedList);
