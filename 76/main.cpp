@@ -1,122 +1,65 @@
 #include <iostream>
 #include <map>
+#include <vector>
 #include <unordered_map>
 using namespace std;
 
 class Solution {
 public:
-    string minWindow1(string s, string t) {
-        int min_length = s.length() + 1;
-        string res = "";
-        map<char, int> record_s, record_t;
-        for(int i=0; i<t.size(); i++){
-            if(!record_t.count(t[i])) record_t[t[i]] = 1;
-            else record_t[t[i]] += 1;
-        }
-        int l = 0;
-        int r = t.size() - 1; // [l...r]
-        for(int i = l; i <= r; i++){  // put [l...r] into record_s
-            if(record_t.count(s[i])){
-                if(!record_s.count(s[i])) record_s[s[i]] = 1;
-                else record_s[s[i]] += 1;
-            }
-        }
-        while(l < s.size()){
-            if(compare(record_s, record_t)){
-                if(r-l+1 < min_length) {
-                    min_length = r - l + 1;
-                    res = s.substr(l, min_length);
-                }
-                // move left pointer;
-                if(record_t.count(s[l])){
-                    if(record_s[s[l]] == 1) record_s.erase(s[l]);
-                    else record_s[s[l]] --;
-                }
-                l++;
-            }
-            else{
-                if(r+1 < s.size()){
-                    r++;
-                    if(record_t.count(s[r])){
-                        if(record_s.count(s[r])) record_s[s[r]] ++;
-                        else record_s[s[r]] = 1;
-                    }
-                }
-                else break;
-            }
-        }
-        if(min_length == s.size() + 1) return "";
-        return res;
-    }
-    bool compare(map<char, int> A, map<char, int> B){
-        // return whether A is greater than B
-        bool res = true;
-        map<char,int>::iterator b;
-        for(b = B.begin(); b != B.end(); b++){
-            if(A.count(b->first)) {
-                if (b->second > A[b->first])
-                    return false;
-            }else{
-                return false;  // key in A but no in B
-            }
-        }
-        return res;
-    }
     string minWindow(string s, string t) {
-        int min_length = s.length() + 1;
-        string res = "";
-        unordered_map<char, int> record_s, record_t;
-        int needCnt = 0; // 需要有多少个不同的字母的综合。替代compare。
-        for(int i=0; i<t.size(); i++){
-            if(!record_t.count(t[i])){
-                record_t[t[i]] = 1;
-                needCnt += 1;
-            }
-            else record_t[t[i]] += 1;
+        int m = s.size();
+        int n = t.size();
+        vector<int> need(128, 0);
+        int needCnt = t.size();
+        for(int i = 0; i< n; i++){
+            need[t[i]-'a'] ++;
         }
-        int l = 0;
-        int r = t.size() - 1; // [l...r]
-        for(int i = l; i <= r; i++){  // put [l...r] int
-            if(record_t.count(s[i])){
-                if(!record_s.count(s[i])) record_s[s[i]] = 1;
-                else record_s[s[i]] += 1;
-                if(record_t[s[i]] == record_s[s[i]]) needCnt -= 1;  // need the char
+
+        int i = 0;
+        int j = 0;
+        int minLen = INT_MAX;
+        vector<int> res(2, 0);
+        // [i..j] is considered
+        while(j < s.size()){
+            // considering j;
+            if(needCnt > 0){  // still need some chars
+                if(need[s[j]-'a'] > 0)
+                    needCnt --;
+                need[s[j]-'a']--;
+                j++;  // extend the window
             }
-        }
-        while(l < s.size()){
             if(needCnt == 0){
-                if(r-l+1 < min_length) {
-                    min_length = r - l + 1;
-                    res = s.substr(l, min_length);
-                }
-                // move left pointer;
-                if(record_t.count(s[l])){ // in the target
-                    if(record_s[s[l]] == 1) record_s.erase(s[l]);
-                    else record_s[s[l]] --;
-                    if(record_t[s[l]] > record_s[s[l]]) needCnt += 1;
-                }
-                l++;
-            }
-            else{
-                if(r+1 < s.size()){
-                    r++;
-                    if(record_t.count(s[r])){
-                        if(record_s.count(s[r])) record_s[s[r]] ++;
-                        else record_s[s[r]] = 1;
-                        if(record_t[s[r]] == record_s[s[r]]) needCnt -= 1;
+                while(true){ // contract the left side of window
+                    if(need[s[i]-'a'] == 0){ // find a exact good windows
+                        break;
                     }
+                    need[s[i] - 'a'] ++;
+                    i++;
                 }
-                else break;
+                // update minLen
+                if(j-i < minLen){
+                    minLen = j-i;
+                    res[0] = i;
+                    res[1] = j;
+                }
+                // move i to find another window that meets requirments
+                need[s[i] - 'a'] ++;
+                i++;
+                needCnt++;
             }
         }
-        if(min_length == s.size() + 1) return "";
-        return res;
+        if(res[1] > res[0])
+            return s.substr(res[0], res[1] - res[0]);
+        else
+            return "";
+
     }
 };
-int main() {
-    string s = "a";
 
-    string p = "a";
+int main() {
+    string s = "ADOBECODEBANC";
+
+    string p = "ABC";
     cout << Solution().minWindow(s, p) << endl;
     return 0;
 }
