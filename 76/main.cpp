@@ -12,7 +12,7 @@ public:
         vector<int> need(128, 0);
         int needCnt = t.size();
         for(int i = 0; i< n; i++){
-            need[t[i]-'a'] ++;
+            need[t[i]-'A'] ++;
         }
 
         int i = 0;
@@ -23,17 +23,17 @@ public:
         while(j < s.size()){
             // considering j;
             if(needCnt > 0){  // still need some chars
-                if(need[s[j]-'a'] > 0)
+                if(need[s[j]-'A'] > 0)
                     needCnt --;
-                need[s[j]-'a']--;
+                need[s[j]-'A']--;
                 j++;  // extend the window
             }
             if(needCnt == 0){
                 while(true){ // contract the left side of window
-                    if(need[s[i]-'a'] == 0){ // find a exact good windows
+                    if(need[s[i]-'A'] == 0){ // find a exact good windows
                         break;
                     }
-                    need[s[i] - 'a'] ++;
+                    need[s[i] - 'A'] ++;
                     i++;
                 }
                 // update minLen
@@ -43,7 +43,7 @@ public:
                     res[1] = j;
                 }
                 // move i to find another window that meets requirments
-                need[s[i] - 'a'] ++;
+                need[s[i] - 'A'] ++;
                 i++;
                 needCnt++;
             }
