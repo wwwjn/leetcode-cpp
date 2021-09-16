@@ -32,6 +32,47 @@ public:
     }
 };
 
+
+
+
+class Solution {
+private:
+    int m, n;
+    int d[4][2] = {{0,1}, {0,-1}, {1,0}, {-1, 0}};
+    bool inArea(int x, int y){
+        return x< m && x >=0 && y<n && y >=0;
+    }
+public:
+    void wallsAndGates(vector<vector<int>>& rooms) {
+        m = rooms.size();
+        n = rooms[0].size();
+        queue<pair<int, int>> q;
+        for(int i = 0; i < m; i++){
+            for(int j = 0 ; j < n; j++){
+                if(rooms[i][j] == 0){
+                    q.push({i,j});
+                }
+            }
+        }
+        while(!q.empty()){
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            // bfs (x,y)
+            for(int k = 0; k < 4; k++){
+                int newx = x + d[k][0];
+                int newy = y + d[k][1];
+                if(inArea(newx, newy) && rooms[newx][newy]!=-1 && rooms[newx][newy]!= 0){
+                    if(rooms[newx][newy] < rooms[x][y] + 1)
+                        continue;
+                    rooms[newx][newy] = rooms[x][y] + 1;
+                    q.push({newx, newy});
+                }
+            }
+        }
+    }
+};
+
 // Your Codec object will be instantiated and called as such:
 // Codec codec;
 // codec.decode(codec.encode(strs));
