@@ -1,9 +1,8 @@
-#include <iostream>
+//
+// Created by Jiani Wang on 2021/10/10.
+//
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
-}
+
 class Solution {
 public:
     string nextClosestTime(string time) {
