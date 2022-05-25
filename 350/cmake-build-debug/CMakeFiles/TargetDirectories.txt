@@ -1,3 +1,0 @@
-/Users/wangjiani/wjn/Code/Leetcode-cpp/350/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/wangjiani/wjn/Code/Leetcode-cpp/350/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/wangjiani/wjn/Code/Leetcode-cpp/350/cmake-build-debug/CMakeFiles/350.dir
